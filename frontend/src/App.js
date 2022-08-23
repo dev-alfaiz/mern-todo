@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./App.css";
 
-import { Navbar } from "./components";
+import { Navbar, Footer } from "./components";
 import { RoutesManager } from "./routes";
 
 const App = () => {
@@ -9,6 +9,7 @@ const App = () => {
     <div className="App">
       <Navbar />
       <RoutesManager />
+      <Footer />
     </div>
   );
 };

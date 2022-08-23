@@ -35,7 +35,6 @@ export const Navbar = () => {
     setAnchorElUser(null);
   };
 
-  console.log("Appbar States", { anchorElNav, anchorElUser });
   return (
     <div className="navbar">
       <AppBar position="static" sx={{ bgcolor: "darkcyan" }}>
@@ -91,27 +90,52 @@ export const Navbar = () => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Todos</Typography>
-                </MenuItem>
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Add Todo</Typography>
-                </MenuItem>
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Update Todo</Typography>
-                </MenuItem>
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Login</Typography>
-                </MenuItem>
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Sign In</Typography>
-                </MenuItem>
+                <Link
+                  to="/todos"
+                  style={{ textDecoration: "none", color: "rgba(0, 0, 0, 0.87)" }}
+                >
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">Todos</Typography>
+                  </MenuItem>
+                </Link>
+                <Link
+                  to="/add-todo"
+                  style={{ textDecoration: "none", color: "rgba(0, 0, 0, 0.87)" }}
+                >
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">Add Todo</Typography>
+                  </MenuItem>
+                </Link>
+                <Link
+                  to="/update-todo"
+                  style={{ textDecoration: "none", color: "rgba(0, 0, 0, 0.87)" }}
+                >
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">Update Todo</Typography>
+                  </MenuItem>
+                </Link>
+                <Link
+                  to="/login"
+                  style={{ textDecoration: "none", color: "rgba(0, 0, 0, 0.87)" }}
+                >
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">Login</Typography>
+                  </MenuItem>
+                </Link>
+                <Link
+                  to="/signup"
+                  style={{ textDecoration: "none", color: "rgba(0, 0, 0, 0.87)" }}
+                >
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">Sign In</Typography>
+                  </MenuItem>
+                </Link>
               </Menu>
             </Box>
             <PlaylistAddCheckIcon
               sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
             />
-            <Link to="/">
+            <Link to="/" style={{ textDecoration: "none", color: "#fff" }}>
               <Typography
                 variant="h5"
                 noWrap
