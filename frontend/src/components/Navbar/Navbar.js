@@ -13,8 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import { IMAGE } from "../../images";
 
 export const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -34,9 +33,11 @@ export const Navbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  console.log("Appbar States", { anchorElNav, anchorElUser });
   return (
     <div className="navbar">
-      <AppBar position="static">
+      <AppBar position="static" sx={{ bgcolor: "darkcyan" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <PlaylistAddCheckIcon
@@ -89,19 +90,14 @@ export const Navbar = () => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {/* {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))} */}
                 <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Products</Typography>
+                  <Typography textAlign="center">Todos</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Add Product</Typography>
+                  <Typography textAlign="center">Add Todo</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Update Product</Typography>
+                  <Typography textAlign="center">Update Todo</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">Login</Typography>
@@ -133,32 +129,23 @@ export const Navbar = () => {
               TODO
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {/* {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {page}
-                </Button>
-              ))} */}
               <Button
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                Products
+                Todos
               </Button>
               <Button
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                Add Product
+                Add Todo
               </Button>
               <Button
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                Update Product
+                Update Todo
               </Button>
               <Button
                 onClick={handleCloseNavMenu}
@@ -177,7 +164,7 @@ export const Navbar = () => {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="default-user" src={IMAGE.USER} />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -196,17 +183,12 @@ export const Navbar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {/* {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))} */}
                 <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Profile</Typography>
-                  </MenuItem>
+                  <Typography textAlign="center">Profile</Typography>
+                </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Logout</Typography>
-                  </MenuItem>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
               </Menu>
             </Box>
           </Toolbar>
