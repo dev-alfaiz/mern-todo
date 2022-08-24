@@ -10,7 +10,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [email, setEmail] = React.useState("");
@@ -23,8 +22,6 @@ export const Login = () => {
     weightRange: "",
     showPassword: false,
   });
-
-  const navigate = useNavigate();
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -45,15 +42,6 @@ export const Login = () => {
     event.preventDefault();
     console.log("Login:", { email, password });
   };
-
-  React.useEffect(() => {
-    const auth = localStorage.getItem("user");
-    if (auth) {
-      navigate("/");
-    } else {
-      navigate("/signup");
-    }
-  }, [navigate]);
 
   return (
     <div className="login-page">

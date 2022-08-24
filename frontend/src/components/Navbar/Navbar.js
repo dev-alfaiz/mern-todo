@@ -12,13 +12,14 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { IMAGE } from "../../images";
 
 export const Navbar = () => {
   const auth = localStorage.getItem("user");
-  const authDetail = JSON.parse(auth);
+
+  const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -36,6 +37,11 @@ export const Navbar = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const logout = () => {
+    localStorage.clear();
+    navigate("/login");
   };
 
   return (
@@ -257,44 +263,51 @@ export const Navbar = () => {
               </Box>
             )}
 
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="default-user" src={IMAGE.USER} />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                <Link
-                  to="/profile"
-                  style={{
-                    textDecoration: "none",
-                    color: "rgba(0, 0, 0, 0.87)",
+            {auth && (
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt="default-user" src={IMAGE.USER} />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
                   }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
                 >
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Profile</Typography>
+                  <Link
+                    to="/profile"
+                    style={{
+                      textDecoration: "none",
+                      color: "rgba(0, 0, 0, 0.87)",
+                    }}
+                  >
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">Profile</Typography>
+                    </MenuItem>
+                  </Link>
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      logout();
+                    }}
+                  >
+                    <Typography textAlign="center">Logout</Typography>
                   </MenuItem>
-                </Link>
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">Logout</Typography>
-                </MenuItem>
-              </Menu>
-            </Box>
+                </Menu>
+              </Box>
+            )}
           </Toolbar>
         </Container>
       </AppBar>
