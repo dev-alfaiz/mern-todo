@@ -17,6 +17,9 @@ import { Link } from "react-router-dom";
 import { IMAGE } from "../../images";
 
 export const Navbar = () => {
+  const auth = localStorage.getItem("user");
+  const authDetail = JSON.parse(auth);
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -72,65 +75,102 @@ export const Navbar = () => {
               >
                 <MenuIcon />
               </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
-              >
-                <Link
-                  to="/todos"
-                  style={{ textDecoration: "none", color: "rgba(0, 0, 0, 0.87)" }}
+              {auth ? (
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                  sx={{
+                    display: { xs: "block", md: "none" },
+                  }}
                 >
-                  <MenuItem onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Todos</Typography>
-                  </MenuItem>
-                </Link>
-                <Link
-                  to="/add-todo"
-                  style={{ textDecoration: "none", color: "rgba(0, 0, 0, 0.87)" }}
+                  <Link
+                    to="/todos"
+                    style={{
+                      textDecoration: "none",
+                      color: "rgba(0, 0, 0, 0.87)",
+                    }}
+                  >
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">Todos</Typography>
+                    </MenuItem>
+                  </Link>
+                  <Link
+                    to="/add-todo"
+                    style={{
+                      textDecoration: "none",
+                      color: "rgba(0, 0, 0, 0.87)",
+                    }}
+                  >
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">Add Todo</Typography>
+                    </MenuItem>
+                  </Link>
+                  <Link
+                    to="/update-todo"
+                    style={{
+                      textDecoration: "none",
+                      color: "rgba(0, 0, 0, 0.87)",
+                    }}
+                  >
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">Update Todo</Typography>
+                    </MenuItem>
+                  </Link>
+                </Menu>
+              ) : (
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                  sx={{
+                    display: { xs: "block", md: "none" },
+                  }}
                 >
-                  <MenuItem onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Add Todo</Typography>
-                  </MenuItem>
-                </Link>
-                <Link
-                  to="/update-todo"
-                  style={{ textDecoration: "none", color: "rgba(0, 0, 0, 0.87)" }}
-                >
-                  <MenuItem onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Update Todo</Typography>
-                  </MenuItem>
-                </Link>
-                <Link
-                  to="/login"
-                  style={{ textDecoration: "none", color: "rgba(0, 0, 0, 0.87)" }}
-                >
-                  <MenuItem onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Login</Typography>
-                  </MenuItem>
-                </Link>
-                <Link
-                  to="/signup"
-                  style={{ textDecoration: "none", color: "rgba(0, 0, 0, 0.87)" }}
-                >
-                  <MenuItem onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Sign In</Typography>
-                  </MenuItem>
-                </Link>
-              </Menu>
+                  <Link
+                    to="/login"
+                    style={{
+                      textDecoration: "none",
+                      color: "rgba(0, 0, 0, 0.87)",
+                    }}
+                  >
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">Login</Typography>
+                    </MenuItem>
+                  </Link>
+                  <Link
+                    to="/signup"
+                    style={{
+                      textDecoration: "none",
+                      color: "rgba(0, 0, 0, 0.87)",
+                    }}
+                  >
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">Sign In</Typography>
+                    </MenuItem>
+                  </Link>
+                </Menu>
+              )}
             </Box>
             <PlaylistAddCheckIcon
               sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}

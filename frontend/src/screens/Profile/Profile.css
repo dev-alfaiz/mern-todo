@@ -1,0 +1,13 @@
+.profile {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.profile > div > table > thead > .table-head-row {
+  background-color: darkcyan;
+}
+
+.profile > div > table > thead > .table-head-row > th {
+  color: #fff;
+}

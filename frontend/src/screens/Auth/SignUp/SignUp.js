@@ -10,12 +10,20 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./SignUp.css";
+
+import { registerAPICall } from "../../../app/slices/authSlice";
 
 export const SignUp = () => {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-
+  const [isError, setIsError] = React.useState(false);
   const [values, setValues] = React.useState({
     amount: "",
     password: "",
@@ -23,6 +31,9 @@ export const SignUp = () => {
     weightRange: "",
     showPassword: false,
   });
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -41,8 +52,36 @@ export const SignUp = () => {
 
   const handleRegister = (event) => {
     event.preventDefault();
-    console.log("Register:", { name, email, password });
+
+    if (!name || !email || !password) {
+      setIsError(true);
+      toast.warn("Please provide valid information!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return false;
+    }
+
+    if (name && email && password) {
+      dispatch(registerAPICall({ name, email, password }));
+      setIsError(false);
+    }
   };
+
+  React.useEffect(() => {
+    const auth = localStorage.getItem("user");
+    if (auth) {
+      navigate("/");
+    } else {
+      navigate("/signup");
+    }
+  }, [navigate]);
+
   return (
     <div className="signup-page">
       <Container maxWidth="sm" align="center">
@@ -67,6 +106,7 @@ export const SignUp = () => {
               type="text"
               sx={{ width: "400px", marginBottom: "10px" }}
             />
+            {isError && !name && <span className="error-span">*Required</span>}
             <TextField
               label="Email"
               value={email}
@@ -75,6 +115,7 @@ export const SignUp = () => {
               type="email"
               sx={{ width: "400px", marginBottom: "10px" }}
             />
+            {isError && !email && <span className="error-span">*Required</span>}
             <FormControl
               sx={{ width: "400px", marginBottom: "10px" }}
               variant="outlined"
@@ -105,6 +146,9 @@ export const SignUp = () => {
                 label="Password"
               />
             </FormControl>
+            {isError && !password && (
+              <span className="error-span">*Required</span>
+            )}
             <Button
               variant="contained"
               sx={{ bgcolor: "darkcyan" }}
@@ -115,6 +159,17 @@ export const SignUp = () => {
           </form>
         </Box>
       </Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
