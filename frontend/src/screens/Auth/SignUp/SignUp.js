@@ -10,20 +10,21 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./SignUp.css";
 
-import { registerAPICall } from "../../../app/slices/authSlice";
+import { registerUser } from "../../../app/slices/authSlice";
 
 export const SignUp = () => {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [isError, setIsError] = React.useState(false);
+  const user = useSelector((state) => state.authReducer.userData);
   const [values, setValues] = React.useState({
     amount: "",
     password: "",
@@ -68,8 +69,14 @@ export const SignUp = () => {
     }
 
     if (name && email && password) {
-      dispatch(registerAPICall({ name, email, password }));
+      dispatch(registerUser({ name, email, password }));
       setIsError(false);
+      if (user?.name?.length > 0) {
+        navigate("/");
+        setName("");
+        setEmail("");
+        setPassword("");
+      }
     }
   };
 

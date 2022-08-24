@@ -12,3 +12,12 @@ export const registerAPI = async (body) => {
     return error.message;
   }
 };
+
+export const loginAPI = async (body) => {
+  try {
+    let response = await AXIOS.post("/login", body);
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+};

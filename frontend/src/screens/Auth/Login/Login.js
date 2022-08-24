@@ -10,10 +10,22 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./Login.css";
+
+import { loginUser } from "../../../app/slices/authSlice";
 
 export const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [isError, setIsError] = React.useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.authReducer.userData);
 
   const [values, setValues] = React.useState({
     amount: "",
@@ -40,8 +52,41 @@ export const Login = () => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    console.log("Login:", { email, password });
+    event.preventDefault();
+
+    if (!email || !password) {
+      setIsError(true);
+      toast.warn("Please provide valid information!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return false;
+    }
+
+    if (email && password) {
+      dispatch(loginUser({ email, password }));
+      setIsError(false);
+      if (user?.name?.length > 0) {
+        navigate("/");
+        setEmail("");
+        setPassword("");
+      }
+    }
   };
+
+  React.useEffect(() => {
+    const auth = localStorage.getItem("user");
+    if (auth) {
+      navigate("/");
+    } else {
+      navigate("/login")
+    }
+  }, [navigate]);
 
   return (
     <div className="login-page">
@@ -67,6 +112,7 @@ export const Login = () => {
               type="email"
               sx={{ width: "400px", marginBottom: "10px" }}
             />
+            {isError && !email && <span className="error-span">*Required</span>}
             <FormControl
               sx={{ width: "400px", marginBottom: "10px" }}
               variant="outlined"
@@ -97,6 +143,9 @@ export const Login = () => {
                 label="Password"
               />
             </FormControl>
+            {isError && !password && (
+              <span className="error-span">*Required</span>
+            )}
             <Button
               variant="contained"
               sx={{ bgcolor: "darkcyan" }}
@@ -107,6 +156,17 @@ export const Login = () => {
           </form>
         </Box>
       </Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
