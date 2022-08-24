@@ -41,6 +41,30 @@ app.post("/register", async (request, response) => {
   }
 });
 
+app.post("/login", async (request, response) => {
+  try {
+    if (request.body.email && request.body.password) {
+      let user = await User.findOne(request.body).select("-password");
+      if (user) {
+        jwt.sign({ user }, jwtKey, { expiresIn: "2h" }, (error, token) => {
+          if (error) {
+            response.status(400).send({
+              result: "Something went wrong, please try after some time.",
+            });
+          }
+          response.send({ result: user, auth: token });
+        });
+      } else {
+        response.status(404).send({ result: "No user found." });
+      }
+    } else {
+      response.status(404).send({ result: "No user found." });
+    }
+  } catch (error) {
+    response.status(400).send({ result: error });
+  }
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });
