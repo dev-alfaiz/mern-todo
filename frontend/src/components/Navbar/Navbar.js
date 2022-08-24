@@ -194,63 +194,68 @@ export const Navbar = () => {
                 TODO
               </Typography>
             </Link>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              <Link
-                to="/todos"
-                style={{ textDecoration: "none", color: "#fff" }}
-              >
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+            {auth ? (
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                <Link
+                  to="/todos"
+                  style={{ textDecoration: "none", color: "#fff" }}
                 >
-                  Todos
-                </Button>
-              </Link>
-              <Link
-                to="/add-todo"
-                style={{ textDecoration: "none", color: "#fff" }}
-              >
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    Todos
+                  </Button>
+                </Link>
+                <Link
+                  to="/add-todo"
+                  style={{ textDecoration: "none", color: "#fff" }}
                 >
-                  Add Todo
-                </Button>
-              </Link>
-              <Link
-                to="/update-todo"
-                style={{ textDecoration: "none", color: "#fff" }}
-              >
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    Add Todo
+                  </Button>
+                </Link>
+                <Link
+                  to="/update-todo"
+                  style={{ textDecoration: "none", color: "#fff" }}
                 >
-                  Update Todo
-                </Button>
-              </Link>
-              <Link
-                to="/login"
-                style={{ textDecoration: "none", color: "#fff" }}
-              >
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    Update Todo
+                  </Button>
+                </Link>
+              </Box>
+            ) : (
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                <Link
+                  to="/login"
+                  style={{ textDecoration: "none", color: "#fff" }}
                 >
-                  Login
-                </Button>
-              </Link>
-              <Link
-                to="/signup"
-                style={{ textDecoration: "none", color: "#fff" }}
-              >
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    Login
+                  </Button>
+                </Link>
+                <Link
+                  to="/signup"
+                  style={{ textDecoration: "none", color: "#fff" }}
                 >
-                  Sign Up
-                </Button>
-              </Link>
-            </Box>
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    Sign Up
+                  </Button>
+                </Link>
+              </Box>
+            )}
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
