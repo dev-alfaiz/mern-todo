@@ -10,7 +10,6 @@ const verifyToken = (request, response, next) => {
         response.status(401).send({ result: "Please provide a valid token" });
       } else {
         next();
-        s;
       }
     });
   } else {

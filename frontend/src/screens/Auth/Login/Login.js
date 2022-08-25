@@ -70,9 +70,9 @@ export const Login = () => {
 
     if (email && password) {
       dispatch(loginUser({ email, password }));
+      navigate("/");
       setIsError(false);
       if (user?.name?.length > 0) {
-        navigate("/");
         setEmail("");
         setPassword("");
       }
@@ -86,7 +86,7 @@ export const Login = () => {
     } else {
       navigate("/login")
     }
-  }, [navigate]);
+  }, []);
 
   return (
     <div className="login-page">

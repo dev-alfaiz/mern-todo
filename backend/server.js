@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 require("./database/config");
 const jwtKey = "mern-todo-2022";
 const User = require("./database/User");
+const Todo = require("./database/Todo");
 const verifyToken = require("./middlewares/verifyToken");
 
 // ENV Config
@@ -37,7 +38,7 @@ app.post("/register", async (request, response) => {
       response.status(400).send({ result: "Register details must" });
     }
   } catch (error) {
-    response.status(400).send({ result: error });
+    response.status(500).send({ error: error.message });
   }
 });
 
@@ -61,7 +62,34 @@ app.post("/login", async (request, response) => {
       response.status(404).send({ result: "No user found." });
     }
   } catch (error) {
-    response.status(400).send({ result: error });
+    response.status(500).send({ error: error.message });
+  }
+});
+
+app.post("/add-todo", verifyToken, async (request, response) => {
+  try {
+    if (request.body.title && request.body.body && request.body.userId) {
+      let todo = new Todo(request.body);
+      let result = await todo.save();
+      response.send(result);
+    } else {
+      response.status(400).send({ result: "Valid Todo Details Must." });
+    }
+  } catch (error) {
+    response.status(500).send({ error: error.message });
+  }
+});
+
+app.get("/todos/:id", verifyToken, async (request, response) => {
+  try {
+    let todos = await Todo.find({userId:request.params.id})
+    if(todos.length > 0){
+      response.send({result:todos})
+    } else {
+      response.send({result:"No Todos Found"})
+    }
+  } catch (error) {
+    response.status(500).send({ error: error.message });
   }
 });
 
