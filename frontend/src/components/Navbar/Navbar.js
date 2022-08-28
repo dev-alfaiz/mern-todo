@@ -18,6 +18,7 @@ import { IMAGE } from "../../images";
 
 export const Navbar = () => {
   const auth = localStorage.getItem("user");
+  const authDetail = JSON.parse(auth);
 
   const navigate = useNavigate();
 
@@ -244,49 +245,54 @@ export const Navbar = () => {
             )}
 
             {auth && (
-              <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="default-user" src={IMAGE.USER} />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: "45px" }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  <Link
-                    to="/profile"
-                    style={{
-                      textDecoration: "none",
-                      color: "rgba(0, 0, 0, 0.87)",
+              <>
+                <Typography textAlign="center" style={{ margin: "0px 5px" }}>
+                  welcome,{authDetail.name}
+                </Typography>
+                <Box sx={{ flexGrow: 0 }}>
+                  <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <Avatar alt="default-user" src={IMAGE.USER} />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
                     }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
                   >
-                    <MenuItem onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">Profile</Typography>
+                    <Link
+                      to="/profile"
+                      style={{
+                        textDecoration: "none",
+                        color: "rgba(0, 0, 0, 0.87)",
+                      }}
+                    >
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center">Profile</Typography>
+                      </MenuItem>
+                    </Link>
+                    <MenuItem
+                      onClick={() => {
+                        handleCloseUserMenu();
+                        logout();
+                      }}
+                    >
+                      <Typography textAlign="center">Logout</Typography>
                     </MenuItem>
-                  </Link>
-                  <MenuItem
-                    onClick={() => {
-                      handleCloseUserMenu();
-                      logout();
-                    }}
-                  >
-                    <Typography textAlign="center">Logout</Typography>
-                  </MenuItem>
-                </Menu>
-              </Box>
+                  </Menu>
+                </Box>
+              </>
             )}
           </Toolbar>
         </Container>
