@@ -114,6 +114,26 @@ app.delete("/delete-todo/:id", verifyToken, async (request, response) => {
   }
 });
 
+app.put("/update-todo/:id", verifyToken, async (request, response) => {
+  try {
+    if (request.params.id) {
+      let result = await Todo.updateOne(
+        { _id: request.params.id },
+        { $set: request.body }
+      );
+      if (result.acknowledged && result.deletedCount === 1) {
+        response.send("Todo Updated Successfully!");
+      } else {
+        response.send({ result: "No Product Deleted with this ID" });
+      }
+    } else {
+      response.send({ result: "No Product Updated with this ID" });
+    }
+  } catch (error) {
+    response.status(500).send({ error: error.message });
+  }
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });
