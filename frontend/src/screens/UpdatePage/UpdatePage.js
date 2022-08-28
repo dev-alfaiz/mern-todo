@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -10,6 +10,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./UpdatePage.css";
 
+import { getAllTodos, updateTodo } from "../../app/slices/todoSlice";
+
 export const UpdatePage = () => {
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
@@ -19,6 +21,7 @@ export const UpdatePage = () => {
   const navigate = useNavigate();
   const auth = localStorage.getItem("user");
   const authDetail = JSON.parse(auth);
+  const todos = useSelector((state) => state.todoReducer.todos);
 
   const updateTodoHandler = (event) => {
     event.preventDefault();
@@ -38,7 +41,7 @@ export const UpdatePage = () => {
     }
 
     if (title && body) {
-      // dispatch(addTodo({ title, body, userId: authDetail._id }));
+      dispatch(updateTodo({ id: params.id, body: { title, body } }));
       navigate("/");
       setIsError(false);
       setTitle("");
@@ -46,9 +49,12 @@ export const UpdatePage = () => {
     }
   };
 
-  React.useEffect(()=>{
-    
-  },[])
+  React.useEffect(() => {
+    dispatch(getAllTodos());
+    const filteredTodo = todos.filter((todo) => todo._id === params.id);
+    setTitle(filteredTodo[0].title);
+    setBody(filteredTodo[0].body);
+  }, []);
 
   return (
     <div className="update-page">

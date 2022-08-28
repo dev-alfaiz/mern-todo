@@ -121,10 +121,10 @@ app.put("/update-todo/:id", verifyToken, async (request, response) => {
         { _id: request.params.id },
         { $set: request.body }
       );
-      if (result.acknowledged && result.deletedCount === 1) {
+      if (result.acknowledged) {
         response.send("Todo Updated Successfully!");
       } else {
-        response.send({ result: "No Product Deleted with this ID" });
+        response.send({ result: "No Product Update with this ID" });
       }
     } else {
       response.send({ result: "No Product Updated with this ID" });

@@ -26,7 +26,6 @@ export const Home = () => {
     dispatch(getAllTodos());
   }, []);
 
-  console.log("todos", todos);
 
   return (
     <div className="home-page">
