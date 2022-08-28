@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { todosAPI, addTodoAPI, deleteTodoAPI } from "../../services/api";
+import {
+  todosAPI,
+  addTodoAPI,
+  deleteTodoAPI,
+  updateTodoAPI,
+} from "../../services/api";
 
 const initialState = {
   isFetching: false,
@@ -57,6 +62,22 @@ export const deleteTodo = createAsyncThunk(
   }
 );
 
+export const updateTodo = createAsyncThunk(
+  "todo/update",
+  async (updateableData, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const response = await updateTodoAPI(updateableData);
+      if (response.status === 200 || response.status === 201) {
+        return fulfillWithValue(response.data);
+      } else {
+        return rejectWithValue(response);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const todoSlice = createSlice({
   name: "todo",
   initialState,
@@ -97,6 +118,17 @@ const todoSlice = createSlice({
       state.message = payload;
     },
     [deleteTodo.rejected]: (state, { payload }) => {
+      state.message = payload;
+    },
+
+    // Update Todo Promise
+    [updateTodo.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [updateTodo.fulfilled]: (state, { payload }) => {
+      state.message = payload;
+    },
+    [updateTodo.rejected]: (state, { payload }) => {
       state.message = payload;
     },
   },

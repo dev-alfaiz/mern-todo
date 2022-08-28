@@ -28,7 +28,7 @@ export const RoutesManager = () => {
         />
         <Route
           exact
-          path={"/update-todo"}
+          path={"/todo/:id"}
           element={<UpdatePage />}
           key={"update-todo"}
         />

@@ -71,3 +71,23 @@ export const deleteTodoAPI = async (id) => {
     return error.message;
   }
 };
+
+export const updateTodoAPI = async (updateableData) => {
+  try {
+    let USER_TOKEN = localStorage.getItem("token");
+    USER_TOKEN = JSON.parse(USER_TOKEN);
+    const headers = {
+      Authorization: `bearer ${USER_TOKEN}`,
+    };
+    let response = await AXIOS.put(
+      `/update-todo/${updateableData.id}`,
+      updateableData.body,
+      {
+        headers,
+      }
+    );
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+};

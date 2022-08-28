@@ -1,5 +1,6 @@
 import * as React from "react";
 import "./TodoList.css";
+import { Link } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -52,15 +53,20 @@ export const TodoList = ({ data }) => {
                       alignItems: "center",
                     }}
                   >
-                    <Button
-                      variant="contained"
-                      sx={{ bgcolor: "darkcyan" }}
-                      size="small"
-                      type="submit"
-                      style={{ marginBottom: "5px" }}
+                    <Link
+                      to={`/todo/${todo._id}`}
+                      style={{ textDecoration: "none" }}
                     >
-                      Update
-                    </Button>
+                      <Button
+                        variant="contained"
+                        sx={{ bgcolor: "darkcyan" }}
+                        size="small"
+                        type="submit"
+                        style={{ marginBottom: "5px" }}
+                      >
+                        Update
+                      </Button>
+                    </Link>
                     <Button
                       variant="contained"
                       sx={{ bgcolor: "darkcyan" }}
