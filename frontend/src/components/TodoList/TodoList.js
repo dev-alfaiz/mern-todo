@@ -44,7 +44,11 @@ export const TodoList = ({ data }) => {
                     {index + 1}
                   </TableCell>
                   <TableCell align="right">{todo.title}</TableCell>
-                  <TableCell align="right">{todo.body}</TableCell>
+                  <TableCell align="right" title={todo.body}>
+                    {todo.body.length > 19
+                      ? todo.body.slice(0, 20) + "..."
+                      : todo.body}
+                  </TableCell>
                   <TableCell
                     align="right"
                     style={{
