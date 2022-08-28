@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { todosAPI, addTodoAPI } from "../../services/api";
+import { todosAPI, addTodoAPI, deleteTodoAPI } from "../../services/api";
 
 const initialState = {
   isFetching: false,
@@ -41,11 +41,28 @@ export const addTodo = createAsyncThunk(
   }
 );
 
+export const deleteTodo = createAsyncThunk(
+  "todo/delete",
+  async (body, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const response = await deleteTodoAPI(body);
+      if (response.status === 200 || response.status === 201) {
+        return fulfillWithValue(response.data);
+      } else {
+        return rejectWithValue(response);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {},
   extraReducers: {
+    // Get All Todos Promise
     [getAllTodos.pending]: (state) => {
       state.isFetching = true;
     },
@@ -56,6 +73,7 @@ const todoSlice = createSlice({
       return { ...state, isFetching: false, todos: payload, message: payload };
     },
 
+    // Add Todo Promise
     [addTodo.pending]: (state) => {
       state.isFetching = true;
     },
@@ -69,6 +87,17 @@ const todoSlice = createSlice({
         newAddedTodo: payload,
         message: payload,
       };
+    },
+
+    // Delete Todo Promise
+    [deleteTodo.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [deleteTodo.fulfilled]: (state, { payload }) => {
+      state.message = payload;
+    },
+    [deleteTodo.rejected]: (state, { payload }) => {
+      state.message = payload;
     },
   },
 });

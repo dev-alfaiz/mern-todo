@@ -55,3 +55,19 @@ export const addTodoAPI = async (body) => {
     return error.message;
   }
 };
+
+export const deleteTodoAPI = async (id) => {
+  try {
+    let USER_TOKEN = localStorage.getItem("token");
+    USER_TOKEN = JSON.parse(USER_TOKEN);
+    const headers = {
+      Authorization: `bearer ${USER_TOKEN}`,
+    };
+    let response = await AXIOS.delete(`/delete-todo/${id}`, {
+      headers,
+    });
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+};

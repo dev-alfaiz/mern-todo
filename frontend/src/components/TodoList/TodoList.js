@@ -8,9 +8,18 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
-// import moment from "moment";
+import { useDispatch } from "react-redux";
+// import { useNavigate } from "react-router-dom";
 
-export const TodoList = ({ data, refreshList }) => {
+import { deleteTodo, getAllTodos } from "../../app/slices/todoSlice";
+
+export const TodoList = ({ data }) => {
+  const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  const handleDelete = (deleteableId) => {
+    dispatch(deleteTodo(deleteableId));
+    dispatch(getAllTodos());
+  };
   return (
     <div className="todo-list">
       <TableContainer component={Paper}>
@@ -58,6 +67,7 @@ export const TodoList = ({ data, refreshList }) => {
                       size="small"
                       type="submit"
                       style={{ marginBottom: "5px" }}
+                      onClick={() => handleDelete(todo._id)}
                     >
                       Delete
                     </Button>

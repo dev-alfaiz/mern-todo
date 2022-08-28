@@ -30,7 +30,7 @@ export const Home = () => {
 
   return (
     <div className="home-page">
-      <TodoList data={todos} refreshList={getAllTodos} />
+      <TodoList data={todos} />
     </div>
   );
 };
