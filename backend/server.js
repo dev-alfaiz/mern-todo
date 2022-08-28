@@ -97,6 +97,23 @@ app.get("/todos/:id", verifyToken, async (request, response) => {
   }
 });
 
+app.delete("/delete-todo/:id", verifyToken, async (request, response) => {
+  try {
+    if (request.params.id) {
+      let result = await Todo.deleteOne({ _id: request.params.id });
+      if (result.acknowledged && result.deletedCount === 1) {
+        response.send("Todo Deleted Successfully!");
+      } else {
+        response.send({ result: "No Product Deleted with this ID" });
+      }
+    } else {
+      response.send({ result: "No Product Deleted with this ID" });
+    }
+  } catch (error) {
+    response.status(500).send({ error: error.message });
+  }
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });
