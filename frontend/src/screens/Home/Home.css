@@ -1,0 +1,13 @@
+.home-page {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.home-page > div > table > thead > .table-head-row {
+  background-color: darkcyan;
+}
+
+.home-page > div > table > thead > .table-head-row > th {
+  color: #fff;
+}

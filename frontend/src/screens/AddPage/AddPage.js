@@ -10,6 +10,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./AddPage.css";
 
+import { addTodo } from "../../app/slices/todoSlice";
+
 export const AddPage = () => {
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
@@ -18,6 +20,8 @@ export const AddPage = () => {
   const navigate = useNavigate();
   const auth = localStorage.getItem("user");
   const authDetail = JSON.parse(auth);
+
+  const newAddedTodo = useSelector((state) => state.todoReducer.newAddedTodo);
 
   const addProductHandler = (event) => {
     event.preventDefault();
@@ -36,7 +40,15 @@ export const AddPage = () => {
       return false;
     }
 
-    console.log("ADD-PRODUCT:", { title, body, userId: authDetail._id });
+    if (title && body) {
+      dispatch(addTodo({ title, body, userId: authDetail._id }));
+      navigate("/");
+      setIsError(false);
+      if (Object.keys(newAddedTodo).length > 0) {
+        setTitle("");
+        setBody("");
+      }
+    }
   };
   return (
     <div className="add-page">

@@ -1,0 +1,13 @@
+.todo-list {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.todo-list > div > table > thead > .table-head-row {
+  background-color: darkcyan;
+}
+
+.todo-list > div > table > thead > .table-head-row > th {
+  color: #fff;
+}

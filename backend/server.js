@@ -82,11 +82,15 @@ app.post("/add-todo", verifyToken, async (request, response) => {
 
 app.get("/todos/:id", verifyToken, async (request, response) => {
   try {
-    let todos = await Todo.find({userId:request.params.id})
-    if(todos.length > 0){
-      response.send({result:todos})
+    if (request.params.id) {
+      let todos = await Todo.find({ userId: request.params.id });
+      if (todos.length > 0) {
+        response.send({ result: todos });
+      } else {
+        response.send({ result: "No Todos Found" });
+      }
     } else {
-      response.send({result:"No Todos Found"})
+      response.send({ result: "No Todos Found" });
     }
   } catch (error) {
     response.status(500).send({ error: error.message });

@@ -21,3 +21,37 @@ export const loginAPI = async (body) => {
     return error.message;
   }
 };
+
+export const todosAPI = async () => {
+  try {
+    const auth = localStorage.getItem("user");
+    const authDetail = JSON.parse(auth);
+    let USER_TOKEN = localStorage.getItem("token");
+    USER_TOKEN = JSON.parse(USER_TOKEN);
+    const headers = {
+      Authorization: `bearer ${USER_TOKEN}`,
+    };
+    let response = await AXIOS.get(`/todos/${authDetail._id}`, {
+      headers,
+    });
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+export const addTodoAPI = async (body) => {
+  try {
+    let USER_TOKEN = localStorage.getItem("token");
+    USER_TOKEN = JSON.parse(USER_TOKEN);
+    const headers = {
+      Authorization: `bearer ${USER_TOKEN}`,
+    };
+    let response = await AXIOS.post(`/add-todo`, body, {
+      headers,
+    });
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+};

@@ -124,17 +124,6 @@ export const Navbar = () => {
                       <Typography textAlign="center">Add Todo</Typography>
                     </MenuItem>
                   </Link>
-                  <Link
-                    to="/update-todo"
-                    style={{
-                      textDecoration: "none",
-                      color: "rgba(0, 0, 0, 0.87)",
-                    }}
-                  >
-                    <MenuItem onClick={handleCloseNavMenu}>
-                      <Typography textAlign="center">Update Todo</Typography>
-                    </MenuItem>
-                  </Link>
                 </Menu>
               ) : (
                 <Menu
@@ -224,17 +213,6 @@ export const Navbar = () => {
                     sx={{ my: 2, color: "white", display: "block" }}
                   >
                     Add Todo
-                  </Button>
-                </Link>
-                <Link
-                  to="/update-todo"
-                  style={{ textDecoration: "none", color: "#fff" }}
-                >
-                  <Button
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                  >
-                    Update Todo
                   </Button>
                 </Link>
               </Box>
