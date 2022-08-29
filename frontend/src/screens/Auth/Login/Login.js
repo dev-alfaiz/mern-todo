@@ -52,7 +52,6 @@ export const Login = () => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    event.preventDefault();
 
     if (!email || !password) {
       setIsError(true);
@@ -84,7 +83,7 @@ export const Login = () => {
     if (auth) {
       navigate("/");
     } else {
-      navigate("/login")
+      navigate("/login");
     }
   }, []);
 

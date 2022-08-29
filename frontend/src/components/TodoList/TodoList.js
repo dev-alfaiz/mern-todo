@@ -11,20 +11,57 @@ import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
 import { useDispatch } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 
 import { deleteTodo, getAllTodos } from "../../app/slices/todoSlice";
 
 export const TodoList = ({ data }) => {
+  const [searchTerm, setSearchTerm] = React.useState("");
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const handleDelete = (deleteableId) => {
     dispatch(deleteTodo(deleteableId));
     dispatch(getAllTodos());
   };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+
+    if (searchTerm) {
+      // dispatch(loginUser({ email, password }));
+      // navigate("/");
+      console.log("searchTerm:",searchTerm)
+    }
+  };
+
   return (
     <div className="todo-list">
+      <form
+        onSubmit={handleSearch}
+        style={{
+          display: "flex",
+          flexFlow: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "auto",
+          height: "auto",
+        }}
+        className={'search-form'}
+      >
+        <TextField
+          label="Search"
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+          variant="outlined"
+          type="text"
+          sx={{ width: "400px" }}
+        />
+        <Button variant="contained" sx={{ bgcolor: "darkcyan",margin:"0px 5px" }} type="submit">
+          Search
+        </Button>
+      </form>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

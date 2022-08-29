@@ -1,6 +1,7 @@
 .todo-list {
   display: flex;
   justify-content: center;
+  flex-flow: column;
   margin: 20px;
 }
 
@@ -10,4 +11,10 @@
 
 .todo-list > div > table > thead > .table-head-row > th {
   color: #fff;
+}
+
+.search-form {
+  margin: 20px;
+  display: flex !important;
+  flex-direction: row !important;
 }
