@@ -134,6 +134,29 @@ app.put("/update-todo/:id", verifyToken, async (request, response) => {
   }
 });
 
+app.get("/search/:id/:term", verifyToken, async (request, response) => {
+  try {
+    if (request.params.id && request.params.term) {
+      let result = await Todo.find({
+        userId: request.params.id,
+        $or: [
+          { title: { $regex: request.params.term.toLowerCase() } },
+          { body: { $regex: request.params.term.toLowerCase() } },
+        ],
+      });
+      if (result.length) {
+        response.send(result);
+      } else {
+        response.send({ result: "No Product Found with this ID" });
+      }
+    } else {
+      response.send({ result: "No Product Found with this ID" });
+    }
+  } catch (error) {
+    response.status(500).send({ error: error.message });
+  }
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });
