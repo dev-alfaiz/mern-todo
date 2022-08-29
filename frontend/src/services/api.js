@@ -91,3 +91,21 @@ export const updateTodoAPI = async (updateableData) => {
     return error.message;
   }
 };
+
+export const searchTodoAPI = async (term) => {
+  try {
+    const auth = localStorage.getItem("user");
+    const authDetail = JSON.parse(auth);
+    let USER_TOKEN = localStorage.getItem("token");
+    USER_TOKEN = JSON.parse(USER_TOKEN);
+    const headers = {
+      Authorization: `bearer ${USER_TOKEN}`,
+    };
+    let response = await AXIOS.get(`/search/${authDetail._id}/${term}`, {
+      headers,
+    });
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+};

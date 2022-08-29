@@ -13,14 +13,18 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import { useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import { deleteTodo, getAllTodos } from "../../app/slices/todoSlice";
+import {
+  deleteTodo,
+  getAllTodos,
+  searchTodo,
+} from "../../app/slices/todoSlice";
 
 export const TodoList = ({ data }) => {
   const [searchTerm, setSearchTerm] = React.useState("");
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const handleDelete = (deleteableId) => {
     dispatch(deleteTodo(deleteableId));
     dispatch(getAllTodos());
@@ -29,12 +33,16 @@ export const TodoList = ({ data }) => {
   const handleSearch = (event) => {
     event.preventDefault();
 
-    if (searchTerm) {
-      // dispatch(loginUser({ email, password }));
-      // navigate("/");
-      console.log("searchTerm:",searchTerm)
+    if (searchTerm.length > 0) {
+      dispatch(searchTodo(searchTerm.toLowerCase()));
+    } else {
+      navigate("/");
     }
   };
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   return (
     <div className="todo-list">
@@ -48,7 +56,7 @@ export const TodoList = ({ data }) => {
           width: "auto",
           height: "auto",
         }}
-        className={'search-form'}
+        className={"search-form"}
       >
         <TextField
           label="Search"
@@ -58,7 +66,11 @@ export const TodoList = ({ data }) => {
           type="text"
           sx={{ width: "400px" }}
         />
-        <Button variant="contained" sx={{ bgcolor: "darkcyan",margin:"0px 5px" }} type="submit">
+        <Button
+          variant="contained"
+          sx={{ bgcolor: "darkcyan", margin: "0px 5px" }}
+          type="submit"
+        >
           Search
         </Button>
       </form>
@@ -83,11 +95,16 @@ export const TodoList = ({ data }) => {
                   <TableCell component="th" scope="row">
                     {index + 1}
                   </TableCell>
-                  <TableCell align="right">{todo.title}</TableCell>
-                  <TableCell align="right" title={todo.body}>
+                  <TableCell align="right">
+                    {capitalizeFirstLetter(todo.title)}
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    title={capitalizeFirstLetter(todo.body)}
+                  >
                     {todo.body.length > 19
-                      ? todo.body.slice(0, 20) + "..."
-                      : todo.body}
+                      ? capitalizeFirstLetter(todo.body.slice(0, 20)) + "..."
+                      : capitalizeFirstLetter(todo.body)}
                   </TableCell>
                   <TableCell align="right">
                     {todo.createdAt ? (

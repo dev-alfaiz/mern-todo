@@ -68,7 +68,12 @@ export const Login = () => {
     }
 
     if (email && password) {
-      dispatch(loginUser({ email, password }));
+      dispatch(
+        loginUser({
+          email: email.toLowerCase(),
+          password: password.toLowerCase(),
+        })
+      );
       navigate("/");
       setIsError(false);
       if (user?.name?.length > 0) {

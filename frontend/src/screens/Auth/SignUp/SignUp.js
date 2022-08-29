@@ -69,7 +69,13 @@ export const SignUp = () => {
     }
 
     if (name && email && password) {
-      dispatch(registerUser({ name, email, password }));
+      dispatch(
+        registerUser({
+          name: name.toLowerCase(),
+          email: email.toLowerCase(),
+          password: password.toLowerCase(),
+        })
+      );
       setIsError(false);
       if (user?.name?.length > 0) {
         navigate("/");

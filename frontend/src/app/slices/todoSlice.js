@@ -4,6 +4,7 @@ import {
   addTodoAPI,
   deleteTodoAPI,
   updateTodoAPI,
+  searchTodoAPI,
 } from "../../services/api";
 
 const initialState = {
@@ -78,6 +79,23 @@ export const updateTodo = createAsyncThunk(
   }
 );
 
+export const searchTodo = createAsyncThunk(
+  "todo/search",
+  async (term, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const response = await searchTodoAPI(term);
+      if (response.status === 200 || response.status === 201) {
+        return fulfillWithValue(response.data);
+      } else {
+        return rejectWithValue(response);
+      }
+      //   return response.data.result;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const todoSlice = createSlice({
   name: "todo",
   initialState,
@@ -130,6 +148,17 @@ const todoSlice = createSlice({
     },
     [updateTodo.rejected]: (state, { payload }) => {
       state.message = payload;
+    },
+
+    // Search Todo Promise
+    [searchTodo.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [searchTodo.fulfilled]: (state, { payload }) => {
+      return { ...state, isFetching: false, todos: payload };
+    },
+    [searchTodo.rejected]: (state, { payload }) => {
+      return { ...state, isFetching: false, todos: payload, message: payload };
     },
   },
 });

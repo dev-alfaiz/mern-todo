@@ -41,7 +41,12 @@ export const UpdatePage = () => {
     }
 
     if (title && body) {
-      dispatch(updateTodo({ id: params.id, body: { title, body } }));
+      dispatch(
+        updateTodo({
+          id: params.id,
+          body: { title: title.toLowerCase(), body: body.toLowerCase() },
+        })
+      );
       navigate("/");
       setIsError(false);
       setTitle("");

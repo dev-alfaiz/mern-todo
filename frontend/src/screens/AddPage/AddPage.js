@@ -41,7 +41,13 @@ export const AddPage = () => {
     }
 
     if (title && body) {
-      dispatch(addTodo({ title, body, userId: authDetail._id }));
+      dispatch(
+        addTodo({
+          title: title.toLowerCase(),
+          body: body.toLowerCase(),
+          userId: authDetail._id,
+        })
+      );
       navigate("/");
       setIsError(false);
       if (Object.keys(newAddedTodo).length > 0) {
