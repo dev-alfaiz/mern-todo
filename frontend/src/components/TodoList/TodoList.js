@@ -33,7 +33,7 @@ export const TodoList = ({ data }) => {
   const handleSearch = (event) => {
     event.preventDefault();
 
-    if (searchTerm.length > 0) {
+    if (searchTerm.length) {
       dispatch(searchTodo(searchTerm.toLowerCase()));
     } else {
       navigate("/");
@@ -86,83 +86,92 @@ export const TodoList = ({ data }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((todo, index) => {
-              return (
-                <TableRow
-                  key={todo._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {index + 1}
-                  </TableCell>
-                  <TableCell align="right">
-                    {capitalizeFirstLetter(todo.title)}
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    title={capitalizeFirstLetter(todo.body)}
+            {data.length ? (
+              data.map((todo, index) => {
+                return (
+                  <TableRow
+                    key={todo._id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    {todo.body.length > 19
-                      ? capitalizeFirstLetter(todo.body.slice(0, 20)) + "..."
-                      : capitalizeFirstLetter(todo.body)}
-                  </TableCell>
-                  <TableCell align="right">
-                    {todo.createdAt ? (
-                      <>
-                        <Typography>
-                          {moment(todo.createdAt).format("MMMM Do YYYY")}
-                        </Typography>
-                        <Typography>
-                          On: {moment(todo.createdAt).format("h:mm:ss a")}
-                        </Typography>
-                      </>
-                    ) : (
-                      <>
-                        <Typography>
-                          {moment(todo.updatedAt).format("MMMM Do YYYY")}
-                        </Typography>
-                        <Typography>
-                          On: {moment(todo.updatedAt).format("h:mm:ss a")}
-                        </Typography>
-                      </>
-                    )}
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    style={{
-                      display: "flex",
-                      flexFlow: "column",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Link
-                      to={`/todo/${todo._id}`}
-                      style={{ textDecoration: "none" }}
+                    <TableCell component="th" scope="row">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell align="right">
+                      {capitalizeFirstLetter(todo.title)}
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      title={capitalizeFirstLetter(todo.body)}
                     >
+                      {todo.body.length > 19
+                        ? capitalizeFirstLetter(todo.body.slice(0, 20)) + "..."
+                        : capitalizeFirstLetter(todo.body)}
+                    </TableCell>
+                    <TableCell align="right">
+                      {todo.createdAt ? (
+                        <>
+                          <Typography>
+                            {moment(todo.createdAt).format("MMMM Do YYYY")}
+                          </Typography>
+                          <Typography>
+                            On: {moment(todo.createdAt).format("h:mm:ss a")}
+                          </Typography>
+                        </>
+                      ) : (
+                        <>
+                          <Typography>
+                            {moment(todo.updatedAt).format("MMMM Do YYYY")}
+                          </Typography>
+                          <Typography>
+                            On: {moment(todo.updatedAt).format("h:mm:ss a")}
+                          </Typography>
+                        </>
+                      )}
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      style={{
+                        display: "flex",
+                        flexFlow: "column",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Link
+                        to={`/todo/${todo._id}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <Button
+                          variant="contained"
+                          sx={{ bgcolor: "darkcyan" }}
+                          size="small"
+                          type="submit"
+                          style={{ marginBottom: "5px" }}
+                        >
+                          Update
+                        </Button>
+                      </Link>
                       <Button
                         variant="contained"
                         sx={{ bgcolor: "darkcyan" }}
                         size="small"
                         type="submit"
                         style={{ marginBottom: "5px" }}
+                        onClick={() => handleDelete(todo._id)}
                       >
-                        Update
+                        Delete
                       </Button>
-                    </Link>
-                    <Button
-                      variant="contained"
-                      sx={{ bgcolor: "darkcyan" }}
-                      size="small"
-                      type="submit"
-                      style={{ marginBottom: "5px" }}
-                      onClick={() => handleDelete(todo._id)}
-                    >
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            ) : (
+              <TableRow
+                key={"not-found"}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <Typography textAlign={"center"}>Not Found!</Typography>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
